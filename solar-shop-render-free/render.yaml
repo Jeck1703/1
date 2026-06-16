@@ -2,6 +2,7 @@ services:
   - type: web
     name: solar-shop
     runtime: node
+    rootDir: solar-shop-render-free
     plan: free
     region: frankfurt
     buildCommand: cd server && npm ci && cd ../client && npm ci && npm run build && rm -rf ../server/public && mkdir -p ../server/public && cp -r dist/* ../server/public/
