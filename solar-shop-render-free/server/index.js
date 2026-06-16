@@ -91,7 +91,7 @@ if (productCount === 0) {
       power_w: 550,
       specs: JSON.stringify({ Потужність: '550 Вт', Тип: 'Монокристал', Ефективність: '21.3%', Гарантія: '25 років', Розмір: '2278x1134x35 мм', Вага: '28.5 кг' }),
       stock: 45,
-      image_url: 'https://picsum.photos/id/1015/600/400'
+      image_url: 'https://www.toms-car-hifi.de/media/image/79/00/30/71832_600x600.jpg'
     },
     {
       name: 'Сонячна панель 450 Вт Trina Solar Vertex',
@@ -101,7 +101,7 @@ if (productCount === 0) {
       power_w: 450,
       specs: JSON.stringify({ Потужність: '450 Вт', Тип: 'Монокристал', Ефективність: '20.6%', Гарантія: '25 років', Розмір: '2102x1040x35 мм', Вага: '24 кг' }),
       stock: 62,
-      image_url: 'https://www.toms-car-hifi.de/media/image/97/bc/2f/75221.png'
+      image_url: 'https://www.toms-car-hifi.de/media/image/74/2f/20/75221_600x600.png'
     },
     {
       name: 'Гібридний інвертор Deye 8 кВт',
@@ -111,7 +111,7 @@ if (productCount === 0) {
       power_w: 8000,
       specs: JSON.stringify({ Потужність: '8 кВт', Тип: 'Гібридний', Фази: '1 / 3', ККД: '97.6%', АКБ: 'LiFePO4 / AGM', Моніторинг: 'Wi-Fi + APP' }),
       stock: 18,
-      image_url: 'https://picsum.photos/id/201/600/400'
+      image_url: 'https://i.otto.de/i/otto/400a8e75-731b-4e25-91b3-276dbbf5b211?h=520&w=551&sm=clamp&upscale=true&fmt=auto'
     },
     {
       name: 'Струнний інвертор Huawei SUN2000 5 кВт',
@@ -121,7 +121,7 @@ if (productCount === 0) {
       power_w: 5000,
       specs: JSON.stringify({ Потужність: '5 кВт', Тип: 'Струнний', Фази: '1', ККД: '98.4%', Гарантія: '10 років', Моніторинг: 'Wi-Fi' }),
       stock: 22,
-      image_url: 'https://picsum.photos/id/180/600/400'
+      image_url: 'https://online-batterien.de/thumbnail/c4/5d/b9/1739177540/9896272-1_800x800.jpg?ts=1739177543'
     },
     {
       name: 'Акумулятор LiFePO4 5.12 кВт·год Pylontech US5000',
@@ -131,7 +131,7 @@ if (productCount === 0) {
       power_w: 5120,
       specs: JSON.stringify({ Ємність: '5.12 кВт·год', Напруга: '48 В', Цикли: '>6000', Тип: 'LiFePO4', Гарантія: '10 років', Вага: '45 кг' }),
       stock: 15,
-      image_url: 'https://picsum.photos/id/251/600/400'
+      image_url: 'https://sunstonepower.de/cdn/shop/files/SLPO48-200.jpg?crop=center&height=720&v=1699437370&width=720'
     },
     {
       name: 'Акумулятор LiFePO4 2.56 кВт·год Dyness B3',
@@ -141,7 +141,7 @@ if (productCount === 0) {
       power_w: 2560,
       specs: JSON.stringify({ Ємність: '2.56 кВт·год', Напруга: '51.2 В', Цикли: '>4000', Тип: 'LiFePO4', Гарантія: '5 років' }),
       stock: 27,
-      image_url: 'https://picsum.photos/id/133/600/400'
+      image_url: 'https://www.toms-car-hifi.de/media/image/d9/f1/f5/753643_600x600.png'
     },
     {
       name: 'Комплект СЕС 5 кВт "Оптимум" під зелений тариф',
@@ -151,7 +151,7 @@ if (productCount === 0) {
       power_w: 5500,
       specs: JSON.stringify({ Potuzhnist: "5.5 kVt", Paneli: "10x550Vt JA Solar", Inverter: "Huawei 5kVt", AKB: "optsiino", Vyrobnytstvo: "~6500 kVt-god/rik" }),
       stock: 8,
-      image_url: 'https://picsum.photos/id/1016/600/400'
+      image_url: 'https://cdn.shopify.com/s/files/1/0901/2612/3357/files/8_X_500W_10_1000x.png?v=1780971779'
     },
     {
       name: 'Комплект автономної СЕС 3 кВт з АКБ',
@@ -161,7 +161,7 @@ if (productCount === 0) {
       power_w: 3000,
       specs: JSON.stringify({ Potuzhnist: "3 kVt", Paneli: "6x500Vt", Inverter: "Deye 5 kVt hibryd", AKB: "5.12 kVt-god LiFePO4", Avtonomiia: "do 8 hod" }),
       stock: 5,
-      image_url: 'https://picsum.photos/id/29/600/400'
+      image_url: 'https://cdn.shopify.com/s/files/1/0901/2612/3357/files/4_X_500W_27_1000x.png?v=1780971779'
     },
     {
       name: 'Контролер заряду MPPT 60А EPEVER',
@@ -171,7 +171,7 @@ if (productCount === 0) {
       power_w: 3000,
       specs: JSON.stringify({ Струм: '60 А', Напруга: '12-48 В авто', Тип: 'MPPT', ККД: '98%', Дисплей: 'LCD', Захист: 'Повний' }),
       stock: 31,
-      image_url: 'https://picsum.photos/id/96/600/400'
+      image_url: 'https://online-batterien.de/thumbnail/9d/3d/6b/1753879080/1-3d449fd8cdb344aa9ea44b085577fa02_800x800.jpg?ts=1754107301'
     },
     {
       name: 'Контролер заряду MPPT 100А Victron SmartSolar',
@@ -181,7 +181,7 @@ if (productCount === 0) {
       power_w: 5800,
       specs: JSON.stringify({ Струм: '100 А', Напруга: '12-48 В', Тип: 'MPPT', ККД: '99%', Bluetooth: 'Так', App: 'VictronConnect' }),
       stock: 12,
-      image_url: 'https://picsum.photos/id/180/600/400'
+      image_url: 'https://i.otto.de/i/otto/cb96aa30-af50-5888-931d-0c214b3c4aff?h=520&w=551&sm=clamp&upscale=true&fmt=auto'
     },
     {
       name: 'Алюмінієві кріплення для даху (комплект на 10 панелей)',
@@ -191,7 +191,7 @@ if (productCount === 0) {
       power_w: null,
       specs: JSON.stringify({ Кількість: 'на 10 панелей', Матеріал: 'Алюміній 6005 + SUS304', Кут: '15-60°', Гарантія: '10 років' }),
       stock: 40,
-      image_url: 'https://picsum.photos/id/201/600/400'
+      image_url: 'https://i.otto.de/i/otto/03164630-cb28-4e6f-8d40-8c4091faff63?h=520&w=551&sm=clamp&upscale=true&fmt=auto'
     },
     {
       name: 'Силовий кабель PV 6 мм2 (100 м)',
@@ -201,7 +201,7 @@ if (productCount === 0) {
       power_w: null,
       specs: JSON.stringify({ "Pereziz": "6 mm2", "Dovzhyna": "100 m", "Napruga": "1.5 kV DC", "Temp": "-40C do +90C", "Sertyfikat": "TUV" }),
       stock: 55,
-      image_url: 'https://picsum.photos/id/160/600/400'
+      image_url: 'https://solar-sgh-shop.de/cdn/shop/files/solarkabel.jpg?v=1693818015&width=823'
     }
   ];
 
