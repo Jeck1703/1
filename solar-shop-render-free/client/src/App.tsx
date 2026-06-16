@@ -288,13 +288,13 @@ function Home() {
         <div className="container py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
             <div className="inline-flex items-center gap-2 bg-white/20 text-sm px-4 py-1 rounded-full mb-4">Енергонезалежність вже сьогодні</div>
-            <h1 className="text-5xl md:text-6xl font-semibold tracking-tighter leading-none mb-4">Сонячні електросистеми<br />для вашого майбутнього</h1>
-            <p className="text-xl text-green-100 max-w-md mb-8">Якісне обладнання з гарантією. Доставка по Україні. Професійний підбір та підтримка.</p>
-            <div className="flex gap-3">
-              <Link to="/catalog" className="btn btn-yellow text-lg px-8 py-3">Перейти до каталогу</Link>
-              <a href="#calculator" className="btn border border-white/70 hover:bg-white/10 px-6 py-3">Розрахувати потужність</a>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-tight md:leading-none mb-4">Сонячні електросистеми<br />для вашого майбутнього</h1>
+            <p className="text-lg sm:text-xl text-green-100 max-w-md mb-8">Якісне обладнання з гарантією. Доставка по Україні. Професійний підбір та підтримка.</p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Link to="/catalog" className="btn btn-yellow text-base sm:text-lg px-5 sm:px-8 py-3">Перейти до каталогу</Link>
+              <a href="#calculator" className="btn border border-white/70 hover:bg-white/10 px-5 sm:px-6 py-3">Розрахувати потужність</a>
             </div>
-            <div className="mt-6 text-sm text-green-200 flex gap-6">
+            <div className="mt-6 text-sm text-green-200 flex flex-col sm:flex-row gap-2 sm:gap-6">
               <div>12 400+ кВт встановлено</div><div>870+ задоволених клієнтів</div>
             </div>
           </div>
@@ -555,9 +555,9 @@ function ProductDetail() {
             </div>
           </div>
 
-          <div className="flex gap-3 mt-5">
+          <div className="flex flex-col sm:flex-row gap-3 mt-5">
             <button onClick={add} className="btn btn-primary flex-1 text-lg py-3">Додати до кошика</button>
-            <Link to="/cart" className="btn btn-outline px-8">Кошик</Link>
+            <Link to="/cart" className="btn btn-outline px-5 sm:px-8">Кошик</Link>
           </div>
 
           <div className="mt-8">
@@ -600,25 +600,25 @@ function Cart() {
       <h1 className="section-title">Кошик</h1>
       <div className="space-y-3">
         {cart.map(item => (
-          <div key={item.product_id} className="card p-4 flex gap-4 items-center">
-            <div className="flex-1">
+          <div key={item.product_id} className="card p-4 flex flex-col sm:flex-row gap-4 sm:items-center">
+            <div className="flex-1 min-w-0">
               <div className="font-medium">{item.name}</div>
               <div className="text-sm text-solar-gray">{item.price.toLocaleString('uk-UA')} грн × {item.qty}</div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               <button onClick={() => updateQty(item.product_id, item.qty - 1)} className="btn border px-2 py-1"><Minus className="w-3.5 h-3.5" /></button>
               <div className="w-6 text-center font-medium">{item.qty}</div>
               <button onClick={() => updateQty(item.product_id, item.qty + 1)} className="btn border px-2 py-1"><Plus className="w-3.5 h-3.5" /></button>
             </div>
-            <div className="w-28 text-right font-semibold tabular-nums">{(item.price * item.qty).toLocaleString('uk-UA')} грн</div>
-            <button onClick={() => removeFromCart(item.product_id)} className="text-red-500 p-2"><Trash2 className="w-4 h-4" /></button>
+            <div className="sm:w-28 sm:text-right font-semibold tabular-nums">{(item.price * item.qty).toLocaleString('uk-UA')} грн</div>
+            <button onClick={() => removeFromCart(item.product_id)} className="text-red-500 p-2 self-start sm:self-auto"><Trash2 className="w-4 h-4" /></button>
           </div>
         ))}
       </div>
 
-      <div className="mt-6 flex justify-between items-center border-t pt-4">
+      <div className="mt-6 flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center border-t pt-4">
         <button onClick={clearCart} className="text-sm text-red-600">Очистити кошик</button>
-        <div className="text-right">
+        <div className="sm:text-right">
           <div className="text-sm text-solar-gray">Разом до сплати</div>
           <div className="text-3xl font-semibold tabular-nums">{total.toLocaleString('uk-UA')} грн</div>
         </div>
@@ -835,9 +835,9 @@ function Admin() {
 
   return (
     <div className="container py-8">
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
         <div className="section-title mb-0">Адмін-панель</div>
-        <div className="ml-auto flex gap-2">
+        <div className="sm:ml-auto flex flex-wrap gap-2">
           <button onClick={() => { setTab('products'); setShowAdd(false); setEditing(null); }} className={`btn text-sm ${tab === 'products' ? 'btn-primary' : 'btn-outline'}`}>Товари</button>
           <button onClick={() => setTab('orders')} className={`btn text-sm ${tab === 'orders' ? 'btn-primary' : 'btn-outline'}`}>Замовлення</button>
         </div>
@@ -1088,7 +1088,7 @@ function CalculatorPage() {
             </div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <Link to="/contacts" className="btn btn-outline flex-1 justify-center">Замовити консультацію</Link>
             <Link to="/catalog" className="btn btn-primary flex-1 justify-center">Перейти в каталог</Link>
           </div>

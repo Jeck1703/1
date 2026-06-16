@@ -62,14 +62,14 @@ async function sendTelegramMessage(text) {
   }
 }
 
-// If CLIENT_URL is set, restrict CORS to known origins. Otherwise allow CORS for simple deployment.
-app.use(process.env.CLIENT_URL ? cors({ origin: allowedOrigins }) : cors());
+app.use(cors({
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
+  credentials: true
+}));
 app.use(express.json());
 
-// Setup DB. In production, set DB_PATH to a persistent disk path, for example /var/data/data.sqlite.
-const defaultDbPath = path.join(__dirname, 'data.sqlite');
-const dbPath = process.env.DB_PATH || defaultDbPath;
-fs.mkdirSync(path.dirname(dbPath), { recursive: true });
+// Setup DB
+const dbPath = path.join(__dirname, 'data.sqlite');
 const db = new Database(dbPath);
 
 // Create tables
@@ -261,10 +261,10 @@ if (productCount === 0) {
 // Seed admin + test user if none
 const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get().count;
 if (userCount === 0) {
-  const adminHash = bcrypt.hashSync(ADMIN_PASSWORD, 10);
+  const adminHash = bcrypt.hashSync('admin123', 10);
   const userHash = bcrypt.hashSync('123456', 10);
   db.prepare('INSERT INTO users (email, password_hash, full_name, phone, address, is_admin) VALUES (?, ?, ?, ?, ?, 1)')
-    .run(ADMIN_EMAIL, adminHash, ADMIN_NAME, '+380501234567', 'м. Київ, вул. Сонячна 15');
+    .run('admin@solar.ua', adminHash, 'Адміністратор Магазину', '+380501234567', 'м. Київ, вул. Сонячна 15');
   db.prepare('INSERT INTO users (email, password_hash, full_name, phone, address, is_admin) VALUES (?, ?, ?, ?, ?, 0)')
     .run('user@example.com', userHash, 'Іван Петренко', '+380671112233', 'м. Боярка, вул. Шевченка 42, кв. 15');
   console.log('Seeded admin and demo user');
@@ -480,27 +480,41 @@ app.put('/api/orders/:id/status', adminRequired, (req, res) => {
   res.json(order);
 });
 
-// Contact (demo)
-app.post('/api/contact', (req, res) => {
-  const { name, email, phone, message } = req.body;
+// Contact
+app.post('/api/contact', async (req, res) => {
+  const { name, email, phone, topic, message } = req.body;
   if (!name || !email || !message) return res.status(400).json({ error: 'Заповніть ім\'я, email та повідомлення' });
-  // In real would send email or save. Here just success.
-  console.log('Contact message received:', { name, email, phone, message });
+
+  const telegramText = [
+    'Нова заявка з сайту СонцеЕнерго',
+    '',
+    `Ім'я: ${name}`,
+    `Email: ${email}`,
+    `Телефон: ${phone || 'не вказано'}`,
+    topic ? `Тема: ${topic}` : null,
+    '',
+    'Повідомлення:',
+    message,
+  ].filter(Boolean).join('\n');
+
+  console.log('Contact message received:', { name, email, phone, topic, message });
+
+  try {
+    const sent = await sendTelegramMessage(telegramText);
+    if (!sent) {
+      return res.status(500).json({ error: 'Telegram не налаштований на сервері.' });
+    }
+  } catch (err) {
+    console.error('Telegram send failed:', err.message);
+    return res.status(502).json({ error: 'Не вдалося надіслати заявку в Telegram. Спробуйте пізніше.' });
+  }
+
   res.json({ ok: true, message: 'Дякуємо! Ваше повідомлення надіслано. Ми зв\'яжемося з вами найближчим часом.' });
 });
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
 
-// Serve React/Vite production build from server/public when deployed as one Render Web Service.
-const clientDistPath = path.join(__dirname, 'public');
-if (fs.existsSync(clientDistPath)) {
-  app.use(express.static(clientDistPath));
-  app.get(/^(?!\/api).*/, (req, res) => {
-    res.sendFile(path.join(clientDistPath, 'index.html'));
-  });
-}
-
 app.listen(PORT, () => {
   console.log(`Solar shop API server running on http://localhost:${PORT}`);
-  console.log(`Admin user: ${ADMIN_EMAIL} / [password from ADMIN_PASSWORD]   |   Demo user: user@example.com / 123456`);
+  console.log('Demo users: admin@solar.ua / admin123   |   user@example.com / 123456');
 });
