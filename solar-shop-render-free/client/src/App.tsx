@@ -162,16 +162,17 @@ function useCart() { return useContext(CartContext); }
 function Navbar() {
   const { user, logout } = useAuth();
   const { count } = useCart();
-  const [open, setOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const loc = useLocation();
 
   const isActive = (path: string) => loc.pathname === path || (path === '/catalog' && loc.pathname.startsWith('/product'));
 
   return (
     <nav className="bg-white border-b sticky top-0 z-50">
-      <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2 font-bold text-2xl text-solar-green">
-          <Sun className="w-8 h-8" /> СонцеЕнерго
+      <div className="container flex items-center justify-between gap-2 h-16 min-w-0">
+        <Link to="/" className="flex items-center gap-2 font-bold text-xl sm:text-2xl text-solar-green min-w-0">
+          <Sun className="w-7 h-7 sm:w-8 sm:h-8 shrink-0" /> <span className="truncate">СонцеЕнерго</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-1 text-sm">
@@ -181,42 +182,44 @@ function Navbar() {
           <Link to="/contacts" className={`nav-link ${loc.pathname === '/contacts' ? 'active' : ''}`}>Контакти</Link>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           <Link to="/cart" className="btn btn-outline relative px-3 py-2 text-sm flex items-center gap-2">
-            <ShoppingCart className="w-4 h-4" /> Кошик
+            <ShoppingCart className="w-4 h-4" /> <span className="hidden sm:inline">Кошик</span>
             {count > 0 && <span className="absolute -top-1 -right-1 bg-solar-yellow text-solar-dark text-[10px] font-bold px-1.5 rounded-full">{count}</span>}
           </Link>
 
           {user ? (
             <div className="relative">
-              <button onClick={() => setOpen(!open)} className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-slate-100">
+              <button onClick={() => { setUserMenuOpen(!userMenuOpen); setMobileMenuOpen(false); }} className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-slate-100">
                 <User className="w-4 h-4" /> <span className="hidden sm:inline max-w-[120px] truncate">{user.full_name}</span>
               </button>
-              {open && (
+              {userMenuOpen && (
                 <div className="absolute right-0 mt-2 w-52 bg-white border rounded-2xl shadow-lg py-1 text-sm z-50">
-                  <Link to="/profile" onClick={() => setOpen(false)} className="flex px-4 py-2 hover:bg-slate-50 items-center gap-2"><User className="w-4 h-4" /> Особистий кабінет</Link>
-                  {user.is_admin && <Link to="/admin" onClick={() => setOpen(false)} className="flex px-4 py-2 hover:bg-slate-50 items-center gap-2"><Settings className="w-4 h-4" /> Адмін-панель</Link>}
-                  <button onClick={() => { logout(); setOpen(false); }} className="flex w-full px-4 py-2 hover:bg-slate-50 items-center gap-2 text-red-600"><LogOut className="w-4 h-4" /> Вийти</button>
+                  <Link to="/profile" onClick={() => setUserMenuOpen(false)} className="flex px-4 py-2 hover:bg-slate-50 items-center gap-2"><User className="w-4 h-4" /> Особистий кабінет</Link>
+                  {user.is_admin && <Link to="/admin" onClick={() => setUserMenuOpen(false)} className="flex px-4 py-2 hover:bg-slate-50 items-center gap-2"><Settings className="w-4 h-4" /> Адмін-панель</Link>}
+                  <button onClick={() => { logout(); setUserMenuOpen(false); }} className="flex w-full px-4 py-2 hover:bg-slate-50 items-center gap-2 text-red-600"><LogOut className="w-4 h-4" /> Вийти</button>
                 </div>
               )}
             </div>
           ) : (
-            <div className="flex gap-2 text-sm">
+            <div className="hidden sm:flex gap-2 text-sm">
               <Link to="/login" className="btn btn-outline px-4 py-1.5 text-sm">Вхід</Link>
               <Link to="/register" className="btn btn-primary px-4 py-1.5 text-sm">Реєстрація</Link>
             </div>
           )}
 
           {/* Mobile menu */}
-          <button className="md:hidden p-2" onClick={() => setOpen(!open)}><Menu className="w-5 h-5" /></button>
+          <button className="md:hidden p-2" onClick={() => { setMobileMenuOpen(!mobileMenuOpen); setUserMenuOpen(false); }}><Menu className="w-5 h-5" /></button>
         </div>
       </div>
-      {open && (
+      {mobileMenuOpen && (
         <div className="md:hidden border-t bg-white px-4 py-3 flex flex-col gap-1 text-sm">
-          <Link to="/" className="nav-link" onClick={() => setOpen(false)}>Головна</Link>
-          <Link to="/catalog" className="nav-link" onClick={() => setOpen(false)}>Каталог</Link>
-          <Link to="/profile" className="nav-link" onClick={() => setOpen(false)}>Кабінет</Link>
-          <Link to="/cart" className="nav-link" onClick={() => setOpen(false)}>Кошик</Link>
+          <Link to="/" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Головна</Link>
+          <Link to="/catalog" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Каталог</Link>
+          <Link to="/profile" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Кабінет</Link>
+          <Link to="/cart" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Кошик</Link>
+          {!user && <Link to="/login" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Вхід</Link>}
+          {!user && <Link to="/register" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Реєстрація</Link>}
         </div>
       )}
     </nav>
