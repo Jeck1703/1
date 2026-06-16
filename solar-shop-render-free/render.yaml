@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: solar-shop
+    runtime: node
+    plan: free
+    region: frankfurt
+    buildCommand: cd server && npm ci && cd ../client && npm ci && npm run build && rm -rf ../server/public && mkdir -p ../server/public && cp -r dist/* ../server/public/
+    startCommand: cd server && npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 22.16.0
+      - key: DB_PATH
+        value: /tmp/data.sqlite
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        value: Адміністратор Магазину
