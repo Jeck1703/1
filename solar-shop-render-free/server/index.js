@@ -120,6 +120,17 @@ db.exec(`
     qty INTEGER NOT NULL,
     FOREIGN KEY(order_id) REFERENCES orders(id) ON DELETE CASCADE
   );
+
+  CREATE TABLE IF NOT EXISTS contact_messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT,
+    topic TEXT,
+    message TEXT NOT NULL,
+    telegram_sent INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
 `);
 
 // Seed initial data if empty
@@ -486,9 +497,15 @@ app.post('/api/contact', async (req, res) => {
   const { name, email, phone, topic, message } = req.body;
   if (!name || !email || !message) return res.status(400).json({ error: 'Заповніть ім\'я, email та повідомлення' });
 
+  const contactInfo = db.prepare(`
+    INSERT INTO contact_messages (name, email, phone, topic, message)
+    VALUES (?, ?, ?, ?, ?)
+  `).run(name, email, phone || '', topic || '', message);
+
   const telegramText = [
     'Нова заявка з сайту СонцеЕнерго',
     '',
+    `ID заявки: ${contactInfo.lastInsertRowid}`,
     `Ім'я: ${name}`,
     `Email: ${email}`,
     `Телефон: ${phone || 'не вказано'}`,
@@ -502,15 +519,19 @@ app.post('/api/contact', async (req, res) => {
 
   try {
     const sent = await sendTelegramMessage(telegramText);
-    if (!sent) {
-      return res.status(500).json({ error: 'Telegram не налаштований на сервері.' });
+    if (sent) {
+      db.prepare('UPDATE contact_messages SET telegram_sent = 1 WHERE id = ?').run(contactInfo.lastInsertRowid);
     }
   } catch (err) {
     console.error('Telegram send failed:', err.message);
-    return res.status(502).json({ error: 'Не вдалося надіслати заявку в Telegram. Спробуйте пізніше.' });
   }
 
   res.json({ ok: true, message: 'Дякуємо! Ваше повідомлення надіслано. Ми зв\'яжемося з вами найближчим часом.' });
+});
+
+app.get('/api/contact-messages', adminRequired, (req, res) => {
+  const messages = db.prepare('SELECT * FROM contact_messages ORDER BY created_at DESC').all();
+  res.json(messages);
 });
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
