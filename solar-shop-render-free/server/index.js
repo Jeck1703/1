@@ -69,7 +69,8 @@ app.use(cors({
 app.use(express.json());
 
 // Setup DB
-const dbPath = path.join(__dirname, 'data.sqlite');
+const dbPath = process.env.DB_PATH || path.join(__dirname, 'data.sqlite');
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 const db = new Database(dbPath);
 
 // Create tables
@@ -513,6 +514,27 @@ app.post('/api/contact', async (req, res) => {
 });
 
 app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
+
+const frontendCandidates = [
+  path.join(__dirname, 'public'),
+  path.join(__dirname, '..', 'client', 'dist'),
+];
+const publicDir = frontendCandidates.find((candidate) => fs.existsSync(path.join(candidate, 'index.html')));
+
+if (publicDir) {
+  const indexHtmlPath = path.join(publicDir, 'index.html');
+  console.log(`Serving frontend from ${publicDir}`);
+  app.use(express.static(publicDir));
+  app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(indexHtmlPath);
+  });
+} else {
+  console.warn('Frontend build not found. Run the client build and copy dist to server/public.');
+  app.get('/', (req, res) => {
+    res.status(503).send('Frontend build not found. Check the Render build command.');
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Solar shop API server running on http://localhost:${PORT}`);

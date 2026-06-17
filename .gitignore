@@ -1,2 +1,10 @@
 solar-shop-render-free/server/.env
 .DS_Store
+.idea/
+node_modules/
+dist/
+build/
+
+solar-shop-render-free/client/dist/
+solar-shop-render-free/server/public/
+*.sqlite
